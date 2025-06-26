@@ -1,0 +1,75 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.25rem 1.2rem 0.25rem 0.75rem;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
+  position: relative;
+}
+
+.dropdownLabel::after {
+  content: '';
+  display: inline-block;
+  margin-left: 0.5em;
+  width: 0.6em;
+  height: 0.6em;
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(45deg);
+  transition: border-color 0.2s;
+}
+
+.dropdownLabel:hover,
+.dropdownLabel:focus {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background: var(--color-primary);
+  border-radius: 0 0 8px 8px;
+  min-width: 160px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  z-index: 10;
+  padding: 0.5rem 0;
+  animation: dropdownFade 0.2s;
+}
+
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translateY(-10px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+.dropdownItem {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  font-family: var(--font-primary);
+  padding: 0.5rem 1.5rem;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dropdownItem:hover,
+.dropdownItem:focus {
+  background: var(--color-accent);
+  color: #fff;
+}
