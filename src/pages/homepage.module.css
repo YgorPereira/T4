@@ -1,0 +1,57 @@
+.homeContainer {
+  padding: 2rem;
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+.tituloPrincipal {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--color-accent);
+}
+
+.secoes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cardTitulo {
+  font-size: 1.25rem;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.cardDescricao {
+  font-size: 0.95rem;
+  color: var(--color-text);
+  flex-grow: 1;
+  margin-bottom: 1rem;
+}
+
+.botao {
+  padding: 0.5rem 1rem;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.botao:hover {
+  background-color: var(--color-accent);
+}

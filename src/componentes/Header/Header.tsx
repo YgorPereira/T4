@@ -11,7 +11,13 @@ const Header: React.FC<Props> = ({ titulo, onSelecionar }) => {
     return (
         <header className={styles.header}>
             <div className={styles.headerContent}>
-                <div className={styles.logo}>{titulo}</div>
+                <button
+                    type="button"
+                    className={styles.logo}
+                    onClick={e => onSelecionar("Home", e)}
+                >
+                    {titulo}
+                </button>
                 <nav>
                     <ul className={styles.navList}>
                         <li className={styles.navItem}>

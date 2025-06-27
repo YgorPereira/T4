@@ -1,5 +1,6 @@
 import { Component } from "react";
 import Header from "./Header/Header";
+import HomePage from "../pages/homepage";
 import ServicosTable from "./Tables/servicosTable";
 import ClientesTable from "./Tables/clientesTable";
 import ProdutosTable from "./Tables/produtoTable";
@@ -15,8 +16,8 @@ export default class Roteador extends Component<{}, state> {
     constructor(props: {} | Readonly<{}>) {
         super(props)
         this.state = {
-            tela: 'Clientes'
-        }
+            tela: 'Home'
+        };
         this.selecionarView = this.selecionarView.bind(this)
     }
 
@@ -34,25 +35,32 @@ export default class Roteador extends Component<{}, state> {
             />
         );
         switch (this.state.tela) {
+            case "Home":
+                return (
+                    <>
+                        {navbar}
+                        <HomePage onSelecionar={this.selecionarView} />
+                    </>
+                );
             case "Clientes":
                 return (
                     <>
                         {navbar}
-                        <ClientesTable/>
+                        <ClientesTable />
                     </>
                 );
             case "Serviços":
                 return (
                     <>
                         {navbar}
-                        <ServicosTable/>
+                        <ServicosTable />
                     </>
                 );
             case "Produtos":
                 return (
                     <>
                         {navbar}
-                        <ProdutosTable/>
+                        <ProdutosTable />
                     </>
                 );
             case "Cliente":

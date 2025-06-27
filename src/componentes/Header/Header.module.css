@@ -22,6 +22,7 @@
   color: white;
   text-transform: lowercase;
   letter-spacing: 0.5px;
+  cursor: pointer;
 }
 
 .navList {
