@@ -71,9 +71,9 @@ const ProdutosTable: React.FC = () => {
     if (editandoProduto) {
         return (
             <AtualizarProdutoForm
-            // produto={editandoProduto}
-            // onSubmit={handleAtualizarProduto}
-            // onCancelar={() => setEditandoProduto(null)}
+            produto={editandoProduto}
+            onSubmit={handleAtualizarProduto}
+            onCancelar={() => setEditandoProduto(null)}
             />
         );
     }

@@ -68,9 +68,9 @@ const ServicosTable: React.FC = () => {
     if (editandoServico) {
         return (
             <AtualizarServicoForm
-            // servico={editandoServico}
-            // onSubmit={handleAtualizarServico}
-            // onCancelar={() => setEditandoServico(null)}
+                servico={editandoServico}
+                onSubmit={handleAtualizarServico}
+                onCancelar={() => setEditandoServico(null)}
             />
         );
     }

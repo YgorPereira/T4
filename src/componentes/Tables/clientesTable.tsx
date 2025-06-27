@@ -7,8 +7,12 @@ type Cliente = {
     id: number;
     nome: string;
     nomeSocial: string;
-    genero: string;
     cpf: string;
+    email?: string;
+    telefone?: string;
+    rg?: string;
+    genero?: string;
+    data_nascimento?: string;
 };
 
 const ClientesTable: React.FC = () => {
@@ -79,9 +83,9 @@ const ClientesTable: React.FC = () => {
     if (editandoCliente) {
         return (
             <AtualizarClienteForm
-            // cliente={editandoCliente}
-            // onSubmit={handleAtualizarCliente}
-            // onCancelar={() => setEditandoCliente(null)}
+                cliente={editandoCliente}
+                onSubmit={handleAtualizarCliente}
+                onCancelar={() => setEditandoCliente(null)}
             />
         );
     }
