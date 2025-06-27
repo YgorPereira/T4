@@ -1,4 +1,4 @@
-import React, { Component, ChangeEvent } from "react";
+import React, { useState, useCallback } from "react";
 import styles from "./Table.module.css";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import AtualizarServicoForm from "../Forms/Atualizacao/atualizacaoServico";
@@ -9,134 +9,138 @@ type Servico = {
     preco: number;
 };
 
-type State = {
-    servicos: Servico[];
-    filtro: string;
-    pagina: number;
-    editandoServico: Servico | null;
-};
+const ServicosTable: React.FC = () => {
+    const [servicos, setServicos] = useState<Servico[]>([
+        { id: 1, nome: "Corte de Cabelo", preco: 40 },
+        { id: 2, nome: "Manicure", preco: 30 },
+        { id: 3, nome: "Pedicure", preco: 35 },
+        { id: 4, nome: "Massagem Relaxante", preco: 80 },
+        { id: 5, nome: "Limpeza de Pele", preco: 60 },
+        { id: 6, nome: "Depilação", preco: 50 },
+        { id: 7, nome: "Sobrancelha", preco: 25 },
+        { id: 8, nome: "Maquiagem", preco: 70 },
+        { id: 9, nome: "Escova", preco: 45 },
+        { id: 10, nome: "Hidratação Capilar", preco: 55 },
+        { id: 11, nome: "Barba", preco: 25 },
+        { id: 12, nome: "Coloração", preco: 120 },
+    ]);
+    const [filtro, setFiltro] = useState("");
+    const [pagina, setPagina] = useState(1);
+    const [editandoServico, setEditandoServico] = useState<Servico | null>(null);
 
-export default class ServicosTable extends Component<{}, State> {
-    state: State = {
-        filtro: "",
-        pagina: 1,
-        editandoServico: null,
-        servicos: [
-            { id: 1, nome: "Corte de Cabelo", preco: 40.0 },
-            { id: 2, nome: "Manicure", preco: 30.0 },
-            { id: 3, nome: "Pedicure", preco: 35.0 },
-            { id: 4, nome: "Massagem Relaxante", preco: 80.0 },
-            { id: 5, nome: "Limpeza de Pele", preco: 60.0 },
-            { id: 6, nome: "Depilação", preco: 50.0 },
-            { id: 7, nome: "Sobrancelha", preco: 25.0 },
-            { id: 8, nome: "Maquiagem", preco: 70.0 },
-            { id: 9, nome: "Escova", preco: 45.0 },
-            { id: 10, nome: "Hidratação Capilar", preco: 55.0 },
-            { id: 11, nome: "Barba", preco: 25.0 },
-            { id: 12, nome: "Coloração", preco: 120.0 }
-        ]
-    };
+    const servicosPorPagina = 8;
 
-    servicosPorPagina = 8;
+    const handleExcluir = useCallback((servico: Servico) => {
+        setServicos(prev => prev.filter(s => s.id !== servico.id));
+    }, []);
 
-    handleFiltro = (event: ChangeEvent<HTMLInputElement>) => {
-        this.setState({ filtro: event.target.value, pagina: 1 });
-    };
+    const handleEditar = useCallback((servico: Servico) => {
+        setEditandoServico(servico);
+    }, []);
 
-    handleExcluir = (servico: Servico) => {
-        this.setState((prevState) => ({
-            servicos: prevState.servicos.filter(s => s.id !== servico.id)
-        }));
-    };
-
-    handleEditar = (servico: Servico) => {
-        this.setState({ editandoServico: servico });
-    };
-
-    handleAtualizarServico = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        alert("Serviço atualizado com sucesso!");
-        this.setState({ editandoServico: null });
-    };
-
-    trocarPagina = (novaPagina: number) => {
-        this.setState({ pagina: novaPagina });
-    };
-
-    render() {
-        const { servicos, filtro, pagina, editandoServico } = this.state;
-        if (editandoServico) {
-            return (
-                <AtualizarServicoForm
-                    onSubmit={this.handleAtualizarServico}
-                />
+    const handleAtualizarServico = useCallback(
+        (servicoAtualizado: Servico) => {
+            setServicos(prev =>
+                prev.map(s => (s.id === servicoAtualizado.id ? servicoAtualizado : s))
             );
-        }
-        const filtrados = servicos.filter(s =>
-            s.nome.toLowerCase().includes(filtro.toLowerCase())
-        );
-        const totalPaginas = Math.ceil(filtrados.length / this.servicosPorPagina);
-        const inicio = (pagina - 1) * this.servicosPorPagina;
-        const fim = inicio + this.servicosPorPagina;
-        const servicosPagina = filtrados.slice(inicio, fim);
+            setEditandoServico(null);
+        },
+        []
+    );
 
+    const handleFiltro = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFiltro(e.target.value);
+        setPagina(1);
+    };
+
+    const trocarPagina = (novaPagina: number) => {
+        setPagina(novaPagina);
+    };
+
+    const servicosFiltrados = servicos.filter(s =>
+        s.nome.toLowerCase().includes(filtro.toLowerCase())
+    );
+    const totalPaginas = Math.ceil(servicosFiltrados.length / servicosPorPagina);
+    const inicio = (pagina - 1) * servicosPorPagina;
+    const fim = inicio + servicosPorPagina;
+    const servicosPagina = servicosFiltrados.slice(inicio, fim);
+
+    if (editandoServico) {
         return (
-            <div className={styles.tabela}>
-                <h2>Serviços Registrados</h2>
-                <input
-                    type="text"
-                    placeholder="Buscar por nome do serviço"
-                    value={filtro}
-                    onChange={this.handleFiltro}
-                    className={styles.inputBusca}
-                />
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Preço (R$)</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {servicosPagina.length > 0 ? (
-                            servicosPagina.map(servico => (
-                                <tr key={servico.id}>
-                                    <td>{servico.id}</td>
-                                    <td>{servico.nome}</td>
-                                    <td>{servico.preco.toFixed(2)}</td>
-                                    <td>
-                                        <button onClick={() => this.handleEditar(servico)} className={styles.acaoBtn}>
-                                            <FaEdit />
-                                        </button>
-                                        <button onClick={() => this.handleExcluir(servico)} className={styles.acaoBtn}>
-                                            <FaTrash />
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan={4}>Nenhum serviço encontrado.</td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-                {totalPaginas > 1 && (
-                    <div className={styles.paginacao}>
-                        {Array.from({ length: totalPaginas }, (_, i) => i + 1).map(p =>
-                            <button
-                                key={p}
-                                onClick={() => this.trocarPagina(p)}
-                                className={p === pagina ? styles.ativo : ""}
-                            >
-                                {p}
-                            </button>
-                        )}
-                    </div>
-                )}
-            </div>
+            <AtualizarServicoForm
+            // servico={editandoServico}
+            // onSubmit={handleAtualizarServico}
+            // onCancelar={() => setEditandoServico(null)}
+            />
         );
     }
-}
+
+    return (
+        <div className={styles.tabela}>
+            <h2>Serviços Registrados</h2>
+            <input
+                type="text"
+                placeholder="Buscar por nome do serviço"
+                value={filtro}
+                onChange={handleFiltro}
+                className={styles.inputBusca}
+            />
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Preço (R$)</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {servicosPagina.length > 0 ? (
+                        servicosPagina.map(servico => (
+                            <tr key={servico.id}>
+                                <td>{servico.id}</td>
+                                <td>{servico.nome}</td>
+                                <td>{servico.preco.toFixed(2)}</td>
+                                <td>
+                                    <button
+                                        onClick={() => handleEditar(servico)}
+                                        className={styles.acaoBtn}
+                                        title="Editar"
+                                    >
+                                        <FaEdit />
+                                    </button>
+                                    <button
+                                        onClick={() => handleExcluir(servico)}
+                                        className={styles.acaoBtn}
+                                        title="Excluir"
+                                    >
+                                        <FaTrash />
+                                    </button>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan={4}>Nenhum serviço encontrado.</td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+            {totalPaginas > 1 && (
+                <div className={styles.paginacao}>
+                    {Array.from({ length: totalPaginas }, (_, i) => i + 1).map(paginaAtual => (
+                        <button
+                            key={paginaAtual}
+                            onClick={() => trocarPagina(paginaAtual)}
+                            className={paginaAtual === pagina ? styles.ativo : ""}
+                        >
+                            {paginaAtual}
+                        </button>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default ServicosTable;
