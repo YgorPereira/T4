@@ -1,6 +1,7 @@
 import React, { Component, ChangeEvent } from "react";
 import styles from "./Table.module.css";
 import { FaTrash, FaEdit } from "react-icons/fa";
+import AtualizarClienteForm from "../Forms/Atualizacao/atualizacaoCliente";
 
 type Cliente = {
     id: number;
@@ -14,12 +15,14 @@ type State = {
     clientes: Cliente[];
     filtro: string;
     pagina: number;
+    editandoCliente: Cliente | null;
 };
 
 export default class ClientesTable extends Component<{}, State> {
     state: State = {
         filtro: "",
         pagina: 1,
+        editandoCliente: null,
         clientes: [
             { id: 1, nome: "Alice Souza", nomeSocial: "Alice S.", genero: "Feminino", cpf: "12345678901" },
             { id: 2, nome: "Bruno Lima", nomeSocial: "Bruno L.", genero: "Masculino", cpf: "98765432109" },
@@ -50,6 +53,18 @@ export default class ClientesTable extends Component<{}, State> {
         }));
     };
 
+    handleEditar = (cliente: Cliente) => {
+        // Simula a navegação para o formulário de atualização
+        this.setState({ editandoCliente: cliente });
+    };
+
+    handleAtualizarCliente = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        // Aqui você mascararia a atualização (não altera nada de verdade)
+        alert("Cliente atualizado com sucesso!");
+        this.setState({ editandoCliente: null });
+    };
+
     clientesPorPagina = 8;
 
     handleFiltro = (event: ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +76,15 @@ export default class ClientesTable extends Component<{}, State> {
     };
 
     render() {
-        const { clientes, filtro, pagina } = this.state;
+        const { clientes, filtro, pagina, editandoCliente } = this.state;
+        if (editandoCliente) {
+            return (
+                <AtualizarClienteForm
+                    onSubmit={this.handleAtualizarCliente}
+                />
+            );
+        }
+
         const filtrados = clientes.filter(c =>
             c.nome.toLowerCase().includes(filtro.toLowerCase())
         );
@@ -88,6 +111,7 @@ export default class ClientesTable extends Component<{}, State> {
                             <th>Nome Social</th>
                             <th>Gênero</th>
                             <th>CPF</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -100,9 +124,9 @@ export default class ClientesTable extends Component<{}, State> {
                                     <td>{cliente.genero}</td>
                                     <td>{cliente.cpf}</td>
                                     <td>
-                                        {/* <button onClick={() => this.handleEditar(cliente)} className={styles.acaoBtn}>
+                                        <button onClick={() => this.handleEditar(cliente)} className={styles.acaoBtn}>
                                             <FaEdit />
-                                        </button> */}
+                                        </button>
                                         <button onClick={() => this.handleExcluir(cliente)} className={styles.acaoBtn}>
                                             <FaTrash />
                                         </button>
@@ -111,7 +135,7 @@ export default class ClientesTable extends Component<{}, State> {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan={5}>Nenhum cliente encontrado.</td>
+                                <td colSpan={6}>Nenhum cliente encontrado.</td>
                             </tr>
                         )}
                     </tbody>

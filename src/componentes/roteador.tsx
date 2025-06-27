@@ -3,9 +3,9 @@ import Header from "./Header/Header";
 import ServicosTable from "./Tables/servicosTable";
 import ClientesTable from "./Tables/clientesTable";
 import ProdutosTable from "./Tables/produtoTable";
-import CadastroClienteForm from "./Forms/Cadastros/Cliente/cadastroCliente";
-import CadastroServicoForm from "./Forms/Cadastros/Servico/cadastroServico";
-import CadastroProdutoForm from "./Forms/Cadastros/Produto/cadastroProduto";
+import CadastroClienteForm from "./Forms/Cadastros/cadastroCliente";
+import CadastroServicoForm from "./Forms/Cadastros/cadastroServico";
+import CadastroProdutoForm from "./Forms/Cadastros/cadastroProduto";
 
 type state = {
     tela: string
@@ -29,7 +29,7 @@ export default class Roteador extends Component<{}, state> {
     render() {
         let navbar = (
             <Header
-                titulo="header"
+                titulo="Web Beauty"
                 onSelecionar={this.selecionarView}
             />
         );

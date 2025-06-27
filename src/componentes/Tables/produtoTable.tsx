@@ -1,7 +1,7 @@
 import React, { Component, ChangeEvent } from "react";
 import styles from "./Table.module.css";
 import { FaTrash, FaEdit } from "react-icons/fa";
-
+import AtualizarProdutoForm from "../Forms/Atualizacao/atualizacaoProduto";
 
 type Produto = {
     id: number;
@@ -13,12 +13,14 @@ type State = {
     produtos: Produto[];
     filtro: string;
     pagina: number;
+    editandoProduto: Produto | null;
 };
 
 export default class ProdutosTable extends Component<{}, State> {
     state: State = {
         filtro: "",
         pagina: 1,
+        editandoProduto: null,
         produtos: [
             { id: 1, nome: "Shampoo Hidratante", preco: 29.90 },
             { id: 2, nome: "Condicionador Nutritivo", preco: 32.50 },
@@ -50,13 +52,29 @@ export default class ProdutosTable extends Component<{}, State> {
         }));
     };
 
+    handleEditar = (produto: Produto) => {
+        this.setState({ editandoProduto: produto });
+    };
+
+    handleAtualizarProduto = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        alert("Produto atualizado com sucesso!");
+        this.setState({ editandoProduto: null });
+    };
 
     trocarPagina = (novaPagina: number) => {
         this.setState({ pagina: novaPagina });
     };
 
     render() {
-        const { produtos, filtro, pagina } = this.state;
+        const { produtos, filtro, pagina, editandoProduto } = this.state;
+        if (editandoProduto) {
+            return (
+                <AtualizarProdutoForm
+                    onSubmit={this.handleAtualizarProduto}
+                />
+            );
+        }
         const filtrados = produtos.filter(p =>
             p.nome.toLowerCase().includes(filtro.toLowerCase())
         );
@@ -81,6 +99,7 @@ export default class ProdutosTable extends Component<{}, State> {
                             <th>ID</th>
                             <th>Nome</th>
                             <th>Preço (R$)</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -91,9 +110,9 @@ export default class ProdutosTable extends Component<{}, State> {
                                     <td>{produto.nome}</td>
                                     <td>{produto.preco.toFixed(2)}</td>
                                     <td>
-                                        {/* <button onClick={() => this.handleEditar(cliente)} className={styles.acaoBtn}>
+                                        <button onClick={() => this.handleEditar(produto)} className={styles.acaoBtn}>
                                             <FaEdit />
-                                        </button> */}
+                                        </button>
                                         <button onClick={() => this.handleExcluir(produto)} className={styles.acaoBtn}>
                                             <FaTrash />
                                         </button>
@@ -102,7 +121,7 @@ export default class ProdutosTable extends Component<{}, State> {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan={3}>Nenhum produto encontrado.</td>
+                                <td colSpan={4}>Nenhum produto encontrado.</td>
                             </tr>
                         )}
                     </tbody>

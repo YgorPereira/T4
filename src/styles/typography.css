@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Montserrat:wght@700&display=swap');
+
 :root {
-  --font-primary: 'Poppins', 'Segoe UI', Arial, sans-serif;
-  --font-secondary: 'Dancing Script', cursive;
+  --font-primary: 'Inter', Arial, sans-serif;
+  --font-secondary: 'Montserrat', Arial, sans-serif;
 }
 
 body {
@@ -12,8 +14,13 @@ body {
   letter-spacing: 0.01em;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-secondary);
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-primary);
   color: var(--color-primary);
   font-weight: 700;
   letter-spacing: 0.03em;
@@ -26,6 +33,7 @@ h1 {
 
 h2 {
   font-size: 2rem;
+  color: black;
 }
 
 h3 {

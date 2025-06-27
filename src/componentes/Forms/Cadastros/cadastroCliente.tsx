@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./cadastroCliente.module.css";
+import styles from "./cadastro.module.css";
 
 type Props = {
     onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;

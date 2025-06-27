@@ -73,3 +73,20 @@
   background: var(--color-accent);
   color: #fff;
 }
+
+@media (max-width: 600px) {
+  .dropdownMenu {
+    min-width: 120px;
+    font-size: 0.98rem;
+    right: 0;
+    left: auto;
+  }
+  .dropdownLabel {
+    font-size: 0.98rem;
+    padding: 0.25rem 0.8rem 0.25rem 0.5rem;
+  }
+  .dropdownItem {
+    padding: 0.5rem 1rem;
+    font-size: 0.98rem;
+  }
+}

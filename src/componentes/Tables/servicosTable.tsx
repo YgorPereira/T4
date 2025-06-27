@@ -1,5 +1,7 @@
 import React, { Component, ChangeEvent } from "react";
 import styles from "./Table.module.css";
+import { FaTrash, FaEdit } from "react-icons/fa";
+import AtualizarServicoForm from "../Forms/Atualizacao/atualizacaoServico";
 
 type Servico = {
     id: number;
@@ -11,12 +13,14 @@ type State = {
     servicos: Servico[];
     filtro: string;
     pagina: number;
+    editandoServico: Servico | null;
 };
 
 export default class ServicosTable extends Component<{}, State> {
     state: State = {
         filtro: "",
         pagina: 1,
+        editandoServico: null,
         servicos: [
             { id: 1, nome: "Corte de Cabelo", preco: 40.0 },
             { id: 2, nome: "Manicure", preco: 30.0 },
@@ -39,12 +43,35 @@ export default class ServicosTable extends Component<{}, State> {
         this.setState({ filtro: event.target.value, pagina: 1 });
     };
 
+    handleExcluir = (servico: Servico) => {
+        this.setState((prevState) => ({
+            servicos: prevState.servicos.filter(s => s.id !== servico.id)
+        }));
+    };
+
+    handleEditar = (servico: Servico) => {
+        this.setState({ editandoServico: servico });
+    };
+
+    handleAtualizarServico = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        alert("Serviço atualizado com sucesso!");
+        this.setState({ editandoServico: null });
+    };
+
     trocarPagina = (novaPagina: number) => {
         this.setState({ pagina: novaPagina });
     };
 
     render() {
-        const { servicos, filtro, pagina } = this.state;
+        const { servicos, filtro, pagina, editandoServico } = this.state;
+        if (editandoServico) {
+            return (
+                <AtualizarServicoForm
+                    onSubmit={this.handleAtualizarServico}
+                />
+            );
+        }
         const filtrados = servicos.filter(s =>
             s.nome.toLowerCase().includes(filtro.toLowerCase())
         );
@@ -69,6 +96,7 @@ export default class ServicosTable extends Component<{}, State> {
                             <th>ID</th>
                             <th>Nome</th>
                             <th>Preço (R$)</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,11 +106,19 @@ export default class ServicosTable extends Component<{}, State> {
                                     <td>{servico.id}</td>
                                     <td>{servico.nome}</td>
                                     <td>{servico.preco.toFixed(2)}</td>
+                                    <td>
+                                        <button onClick={() => this.handleEditar(servico)} className={styles.acaoBtn}>
+                                            <FaEdit />
+                                        </button>
+                                        <button onClick={() => this.handleExcluir(servico)} className={styles.acaoBtn}>
+                                            <FaTrash />
+                                        </button>
+                                    </td>
                                 </tr>
                             ))
                         ) : (
                             <tr>
-                                <td colSpan={3}>Nenhum serviço encontrado.</td>
+                                <td colSpan={4}>Nenhum serviço encontrado.</td>
                             </tr>
                         )}
                     </tbody>
