@@ -30,27 +30,9 @@ const Header: React.FC<Props> = ({ titulo, onSelecionar }) => {
                             </button>
                         </li>
                         <li className={styles.navItem}>
-                            <button
-                                type="button"
-                                className={styles.navLink}
-                                onClick={e => onSelecionar("Serviços", e)}
-                            >
-                                Serviços
-                            </button>
-                        </li>
-                        <li className={styles.navItem}>
-                            <button
-                                type="button"
-                                className={styles.navLink}
-                                onClick={e => onSelecionar("Produtos", e)}
-                            >
-                                Produtos
-                            </button>
-                        </li>
-                        <li className={styles.navItem}>
                             <Dropdown
                                 label="Cadastros"
-                                options={["Cliente", "Serviço", "Produto"]}
+                                options={["Cliente"]}
                                 onSelect={onSelecionar}
                             />
                         </li>

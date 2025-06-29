@@ -19,35 +19,11 @@ export default function HomePage({ onSelecionar }: Props) {
           descricao="Preencha o formulário para adicionar um novo cliente ao sistema."
           tela="Cliente"
           onSelecionar={onSelecionar}
-        />
-        <Section
-          titulo="Cadastrar Serviço"
-          descricao="Adicione um novo serviço que será oferecido no seu estabelecimento."
-          tela="Serviço"
-          onSelecionar={onSelecionar}
-        />
-        <Section
-          titulo="Cadastrar Produto"
-          descricao="Registre um novo produto no catálogo."
-          tela="Produto"
-          onSelecionar={onSelecionar}
-        />
+        />  
         <Section
           titulo="Clientes"
           descricao="Visualize a lista de clientes cadastrados. Você pode editar ou excluir um cliente."
           tela="Clientes"
-          onSelecionar={onSelecionar}
-        />
-        <Section
-          titulo="Serviços"
-          descricao="Veja todos os serviços cadastrados, com opções para editar ou excluir."
-          tela="Serviços"
-          onSelecionar={onSelecionar}
-        />
-        <Section
-          titulo="Produtos"
-          descricao="Consulte a lista de produtos disponíveis. Edite ou remova produtos conforme necessário."
-          tela="Produtos"
           onSelecionar={onSelecionar}
         />
       </div>
