@@ -1,6 +1,7 @@
 # Requisitos
 
-- Node v22.15.0
+- Windows: Node v22.15.0
+- Linux: Node v16.20.2
 - Java 17 ou superior
 - Git
 
